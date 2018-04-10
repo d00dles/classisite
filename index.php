@@ -1,34 +1,34 @@
 <?php
 
-include 'config.php';
-include 'session.php';
+include_once 'config.php';
+include_once 'session.php';
 
 session_start();
 
-$mysqli = $db;
+$pg = $db;
 
-if (!$mysqli){
-	die("Connection Failed: %s\n" . mysqli_connect_error());
+if (!$pg){
+	die("Connection Failed: %s\n" . pg_last_error($pg));
 }
 
 $sql = "SELECT * FROM adverts ";
-$result = $mysqli->query($sql);
+$result = pg_query($pg,$sql);
 
 $mrow = array();
-		
 
-if ($result->num_rows > 0) {
+
+if (pg_num_rows($result) > 0) {
     // output data of each row
-    while($row = $result->fetch_assoc()) {array_push($mrow, $row);
-    //    echo "Title: " . $row["ad_title"]. " - Name: " . $row["location"]. " - Contact " . $row["contact"]. " - Price " . $row["ad_price"]. " - Description " . $row["description"]. " - Seller " . $row["user"].  "<br>";
+    while($row = pg_fetch_assoc($result)) {
+			array_push($mrow, $row);
+    //    echo "Title: " . $row["ad_title"]. " - Name: " . $row["location"]. " - Contact " . $row["contact"]. " - Price " . $row["ad_price"]. " - Description " . $row["description"]. " - Seller " . $row["user_s"].  "<br>";
 
   }
 } else {
     echo "0 results";
 }
-$mysqli->close();
 
-//var_dump($mrow);
+// var_dump($mrow);
 
 ?>
 
@@ -45,10 +45,10 @@ $mysqli->close();
     <title>Home Page - Classified ads</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="startbootstrap-shop-item/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="startbootstrap-shop-item/css/shop-item.css" rel="stylesheet">
+    <link href="css/shop-item.css" rel="stylesheet">
 
   </head>
 
@@ -125,7 +125,7 @@ $mysqli->close();
               <p class="card-text"> <?php echo $product["description"]; ?></p>
               <h4> Contact by : <?php echo $product["contact"]; ?></h4>
 	      <h5> Location : <?php echo $product["location"]; ?></h5>
-	      <h5> Seller : <?php echo $product["user"]; ?></h5>
+	      <h5> Seller : <?php echo $product["user_s"]; ?></h5>
 	    </div>
           </div><?php }	?>
           <!-- /.card -->
@@ -147,10 +147,9 @@ $mysqli->close();
     </footer>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="static/jquery/jquery.min.js"></script>
+    <script src="static/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   </body>
 
 </html>
-

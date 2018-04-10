@@ -1,5 +1,5 @@
 <?php
-	include 'session.php';
+	include_once 'session.php';
 ?>
 <html>
 	<head>
@@ -27,7 +27,7 @@
 	<label>Advert Price :</label>
 		<input type="number" name="ad_price" id="ad_price" required="required" placeholder="Price"/><br/><br/>
 	<label>Description :</label>
-		<textarea name="description" rows="10" cols="50" id="description" required="required" placeholder="Description of sale"/></textarea> 
+		<textarea name="description" rows="10" cols="50" id="description" required="required" placeholder="Description of sale"/></textarea>
 		<input type="submit" value=" Submit " name="submit"/><br/>
 </form>
 
@@ -35,8 +35,8 @@
 
 <?php
 
-include 'config.php';
-//include 'session.php';
+include_once 'config.php';
+//include_once 'session.php';
 
 session_start();
 
@@ -51,7 +51,7 @@ if (!$conn) {
 }
 
 
-$sql = "INSERT INTO adverts (ad_title,location,contact,ad_price,description,user) VALUES ('".$_POST["ad_title"]."','".$_POST["location"]."','".$_POST["contact"]."','".$_POST["ad_price"]."','".$_POST["description"]."','".$_SESSION['login_user']."')";
+$sql = "INSERT INTO adverts (ad_title,location,contact,ad_price,description,user_s) VALUES ('".$_POST["ad_title"]."','".$_POST["location"]."','".$_POST["contact"]."','".$_POST["ad_price"]."','".$_POST["description"]."','".$_SESSION['login_user']."')";
 
 $inst = mysqli_query($conn, $sql);
 
@@ -61,7 +61,7 @@ if ($inst) {
 	}else{
 	echo '<script type="text/javascript">alert("Error: " . $sql . "<br>" . $conn->error.);</script>';
 	}
-	
+
 session_destroy();
 }
 mysqli_close($conn);
